@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cricket</title>
+  <link rel="stylesheet" href="cricket.css">
+</head>
+<body>
+  <img class="cricket-img" src="cricket.jpg" alt="Cricket Image">
+  <div class="game-container"></div>
+  <h1>Cricket Mania: Bat Ball Stump!</h1>
+
+  <div class="player-section">
+    <input id="player-name-input" type="text" placeholder="Enter your name" />
+    <button onclick="savePlayerName()">Save Name</button>
+    <p id="welcome-text"></p>
+  </div>
+
+  <div id="result" class="result-box">Make your move!</div>
+
+  <button onclick="
+    let randomnumber = Math.random() * 3;
+    let computerchoice;
+    if(randomnumber <= 1) computerchoice = 'Bat';
+    else if(randomnumber <= 2) computerchoice = 'Ball';
+    else computerchoice = 'Stump';
+    let resultmsg;
+    if(computerchoice === 'Bat') {
+      resultmsg = 'Its a tie!'; ties++; tieSound.play();
+    } else if(computerchoice === 'Ball') {
+      resultmsg = 'You win!'; wins++; winSound.play();
+    } else {
+      resultmsg = 'You lost!'; losses++; loseSound.play();
+    }
+    saveScores();
+    updateScoreUI();
+    addToHistory('Bat', computerchoice, resultmsg.replace('You ', '').replace('Its', 'It\'s'));
+    checkAchievements();
+    document.getElementById('result').innerText = `You chose to bat. Computer selected ${computerchoice}. ${resultmsg}`;
+  ">Bat</button>
+
+  <button onclick="
+    let randomnumber = Math.random() * 3;
+    let computerchoice;
+    if(randomnumber <= 1) computerchoice = 'Bat';
+    else if(randomnumber <= 2) computerchoice = 'Ball';
+    else computerchoice = 'Stump';
+    let resultmsg;
+    if(computerchoice === 'Bat') {
+      resultmsg = 'You lost!'; losses++; loseSound.play();
+    } else if(computerchoice === 'Ball') {
+      resultmsg = 'Its a tie'; ties++; tieSound.play();
+    } else {
+      resultmsg = 'You win!'; wins++; winSound.play();
+    }
+    saveScores();
+    updateScoreUI();
+    addToHistory('Ball', computerchoice, resultmsg.replace('You ', '').replace('Its', 'It\'s'));
+    checkAchievements();
+    document.getElementById('result').innerText = `You chose to ball. Computer selected ${computerchoice}. ${resultmsg}`;
+  ">Ball</button>
+
+  <button onclick="
+    let randomnumber = Math.random() * 3;
+    let computerchoice;
+    if(randomnumber <= 1) computerchoice = 'Bat';
+    else if(randomnumber <= 2) computerchoice = 'Ball';
+    else computerchoice = 'Stump';
+    let resultmsg;
+    if(computerchoice === 'Bat') {
+      resultmsg = 'You won!'; wins++; winSound.play();
+    } else if(computerchoice === 'Ball') {
+      resultmsg = 'You lost!'; losses++; loseSound.play();
+    } else {
+      resultmsg = 'Its a tie!'; ties++; tieSound.play();
+    }
+    saveScores();
+    updateScoreUI();
+    addToHistory('Stump', computerchoice, resultmsg.replace('You ', '').replace('Its', 'It\'s'));
+    checkAchievements();
+    document.getElementById('result').innerText = `You chose to Stump. Computer selected ${computerchoice}. ${resultmsg}`;
+  ">Stump</button>
+
+  <button onclick="
+    wins = 0; losses = 0; ties = 0;
+    matchHistory = [];
+    badges = [];
+    saveScores();
+    updateScoreUI();
+    localStorage.setItem('matchHistory', JSON.stringify(matchHistory));
+    localStorage.setItem('badges', JSON.stringify(badges));
+    renderHistoryTable();
+    renderBadges();
+    document.getElementById('result').innerText = 'Scores reset. Play again!';
+  ">🔄 Reset Score</button>
+
+  <div id="score-wrap">
+    <div class="scorecard">
+      <h2>📊 Scorecard</h2>
+      <p>Wins: <span id="win-count">0</span></p>
+      <p>Losses: <span id="loss-count">0</span></p>
+      <p>Ties: <span id="tie-count">0</span></p>
+    </div>
+
+    <div class="history-section">
+      <h2>📜 Match History</h2>
+      <table id="history-table" border="1" style="margin: auto; color: white;">
+        <thead>
+          <tr>
+            <th>Round</th>
+            <th>You</th>
+            <th>Computer</th>
+            <th>Result</th>
+          </tr>
+        </thead>
+        <tbody id="history-body"></tbody>
+      </table>
+    </div>
+
+    <div class="achievement-section">
+      <h2>🏆 Achievements</h2>
+      <div id="badge-list"></div>
+    </div>
+  </div>
+
+  <script>
+    let wins = parseInt(localStorage.getItem('wins')) || 0;
+    let losses = parseInt(localStorage.getItem('losses')) || 0;
+    let ties = parseInt(localStorage.getItem('ties')) || 0;
+    let badges = JSON.parse(localStorage.getItem('badges')) || [];
+    let matchHistory = JSON.parse(localStorage.getItem('matchHistory')) || [];
+
+    const winSound = new Audio('sounds/win.mp3');
+    const loseSound = new Audio('sounds/lose.mp3');
+    const tieSound = new Audio('sounds/tie.mp3');
+
+    function saveScores() {
+      localStorage.setItem('wins', wins);
+      localStorage.setItem('losses', losses);
+      localStorage.setItem('ties', ties);
+    }
+
+    function updateScoreUI() {
+      document.getElementById('win-count').innerText = wins;
+      document.getElementById('loss-count').innerText = losses;
+      document.getElementById('tie-count').innerText = ties;
+    }
+
+    function addToHistory(playerMove, computerMove, result) {
+      const round = matchHistory.length + 1;
+      matchHistory.push({ round, playerMove, computerMove, result });
+      localStorage.setItem('matchHistory', JSON.stringify(matchHistory));
+      renderHistoryTable();
+    }
+
+    function renderHistoryTable() {
+      const historyBody = document.getElementById('history-body');
+      historyBody.innerHTML = '';
+      matchHistory.forEach(entry => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${entry.round}</td>
+          <td>${entry.playerMove}</td>
+          <td>${entry.computerMove}</td>
+          <td>${entry.result}</td>
+        `;
+        historyBody.appendChild(row);
+      });
+    }
+
+    function unlockBadge(label, emoji) {
+      if (badges.includes(label)) return;
+      badges.push(label);
+      localStorage.setItem('badges', JSON.stringify(badges));
+      renderBadges();
+      alert(`🎉 Achievement Unlocked: ${emoji} ${label}`);
+    }
+
+    function renderBadges() {
+      const badgeList = document.getElementById('badge-list');
+      badgeList.innerHTML = '';
+      badges.forEach(badge => {
+        const badgeDiv = document.createElement('div');
+        badgeDiv.innerText = badge;
+        badgeDiv.className = 'badge';
+        badgeList.appendChild(badgeDiv);
+      });
+    }
+
+    function checkAchievements() {
+      if (wins === 1) unlockBadge("First Win", "🥇");
+      if (wins === 5) unlockBadge("5 Wins", "🏅");
+      if (matchHistory.length === 10) unlockBadge("10 Matches Played", "🎯");
+    }
+
+    function savePlayerName() {
+      const name = document.getElementById('player-name-input').value.trim();
+      if (name) {
+        localStorage.setItem('playerName', name);
+        showWelcome(name);
+      }
+    }
+
+    function showWelcome(name) {
+      const emojis = ["🏏", "🔥", "🎯", "💪", "🕹️", "⚡", "🎮"];
+      const emoji = emojis[Math.floor(Math.random() * emojis.length)];
+      document.getElementById('welcome-text').innerText = `👋 Welcome back, ${name} ${emoji}`;
+    }
+
+    const storedName = localStorage.getItem('playerName');
+    if (storedName) {
+      document.getElementById('player-name-input').value = storedName;
+      showWelcome(storedName);
+    }
+
+    updateScoreUI();
+    renderHistoryTable();
+    renderBadges();
+  </script>
+</body>
+</html>
+
+
+

@@ -1,0 +1,190 @@
+
+body {
+  background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+  color: white;
+  font-family: 'Segoe UI', sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+.cricket-img {
+  max-width: 200px;
+  height: auto;
+  display: block;
+  margin: 20px auto;
+  border-radius: 10px;
+  box-shadow: 0 0 15px #00f7ff;
+}
+.game-container {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+}
+
+
+
+
+h1 {
+    font-size: 3rem;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px #000;
+}
+
+
+
+
+
+button {
+    background-color: #ffffff10; 
+    color: #fff;
+    border: 2px solid #00ffc8;
+    padding: 15px 30px;
+    margin: 10px;
+    font-size: 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px); 
+}
+
+button:hover {
+    background-color: #00ffc8;
+    color: #000;
+    transform: scale(1.05);
+    box-shadow: 0 0 15px #00ffc8;
+}
+.scorecard {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: black;
+  color: cyan;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px #00f7ff;
+  font-weight: bold;
+  width: 140px;
+  text-align: left;
+}
+
+
+.scorecard:hover {
+  transform: scale(1.03);
+}
+
+.scorecard h2 {
+  margin: 0 0 10px;
+  font-size: 1.5rem;
+  text-decoration: underline;
+  color: #00ffd5;
+}
+
+.scorecard p {
+  margin: 5px 0;
+  font-size: 1.2rem;
+}
+.result-box {
+  margin: 20px auto;
+  padding: 12px 20px;
+  background: #00bfff;
+  color: #000;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  width: fit-content;
+  box-shadow: 0 0 10px #00bfff88;
+}
+
+
+.history-section {
+  margin: 40px auto;
+  max-width: 700px;
+  padding: 10px;
+}
+
+#history-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid #00f7ff;
+  box-shadow: 0 0 10px rgba(0, 247, 255, 0.3);
+}
+
+#history-table thead {
+  background-color: #00f7ff;
+  color: black;
+}
+
+#history-table th,
+#history-table td {
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #00f7ff;
+}
+
+#history-table tbody tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+#history-table tbody tr:hover {
+  background-color: #00f7ff;
+  color: black;
+  transition: 0.3s;
+}
+.player-section {
+  margin: 20px auto;
+}
+
+.player-section input {
+  padding: 8px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: none;
+}
+
+.player-section button {
+  padding: 8px 12px;
+  background-color: #00f7ff;
+  border: none;
+  color: black;
+  font-weight: bold;
+  border-radius: 5px;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.achievement-section {
+  margin-top: 30px;
+}
+
+.badge {
+  display: inline-block;
+  margin: 8px;
+  padding: 6px 10px;
+  background-color: #111;
+  color: #00f7ff;
+  border: 1px solid #00f7ff;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  box-shadow: 0 0 10px #00f7ff77;
+}
+#welcome-text {
+  font-size: 1.3rem;
+  color: #00f7ff;
+  font-weight: bold;
+  margin-top: 10px;
+  text-shadow: 0 0 8px #00f7ff;
+  transition: all 0.3s ease-in-out;
+  background: rgba(0, 247, 255, 0.1);
+  border: 1px solid #00f7ff;
+  padding: 10px 20px;
+  display: inline-block;
+  border-radius: 10px;
+  animation: pulse 1.2s ease infinite alternate;
+}
+
+@keyframes pulse {
+  from { box-shadow: 0 0 10px #00f7ff66; }
+  to { box-shadow: 0 0 20px #00f7ffcc; }
+}
